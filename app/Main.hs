@@ -13,7 +13,7 @@ main = do
     hSetBuffering stdout NoBuffering
     case reads input of
         [(n, "")]
-            | n >= 1 && n <= 24 ->
+            | n >= 1 && n <= 25 ->
                 case allDays !? (n - 1) of
                     Just day -> day
                     Nothing  -> putStrLn "Day not implemented yet"
