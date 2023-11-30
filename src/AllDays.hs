@@ -1,7 +1,4 @@
-module Main where
-
-import Data.List.Extra ((!?))
-import System.IO (hSetBuffering, stdin, stdout, BufferMode(..))
+module AllDays where
 
 import Day1 (day1)
 import Day2 (day2)
@@ -37,17 +34,3 @@ allDays =
     , day16, day17, day18, day19, day20
     , day21, day22, day23, day24, day25
     ]
-
-main :: IO ()
-main = do
-    putStrLn "Which day?"
-    input <- getLine
-    hSetBuffering stdin  LineBuffering
-    hSetBuffering stdout NoBuffering
-    case reads input of
-        [(n, "")]
-            | n >= 1 && n <= 24 ->
-                case allDays !? (n - 1) of
-                    Just day -> day
-                    Nothing  -> putStrLn "Day not implemented yet"
-        _   -> putStrLn "Invalid day! It has to be a number between 1 and 25."
