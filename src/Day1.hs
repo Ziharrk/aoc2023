@@ -1,7 +1,7 @@
 module Day1 where
 
 import Data.Char ( isDigit )
-import Data.List (isPrefixOf)
+import Data.List ( isPrefixOf )
 
 lineValue :: String -> Int
 lineValue s = read [d1, d2]
