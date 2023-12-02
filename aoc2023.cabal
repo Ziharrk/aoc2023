@@ -38,6 +38,7 @@ common ghc_options
 library
     import:           ghc_options
     exposed-modules:  AllDays,
+                      Tuple,
                       Day1,
                       Day2,
                       Day3,
