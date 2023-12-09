@@ -13,5 +13,7 @@ continueSequence xs = last xs +
 day9 :: IO ()
 day9 = do
   input <- map (map read . words) . lines <$> readFile "input/day9"
+  putStr "Part 1: "
   print $ sum $ map continueSequence input
+  putStr "Part 2: "
   print $ sum $ map (continueSequence . reverse) input
