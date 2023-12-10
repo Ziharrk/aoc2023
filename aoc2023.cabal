@@ -17,11 +17,13 @@ source-repository head
 common ghc_options
     ghc-options: -Wall
     default-language: GHC2021
-    other-extensions: MultiWayIf,
-                      TypeFamilies,
+    other-extensions: DeriveAnyClass,
+                      DerivingStrategies,
                       LambdaCase,
-                      DeriveAnyClass,
-                      OverloadedRecordDot
+                      MultiWayIf,
+                      OverloadedRecordDot,
+                      TemplateHaskell,
+                      TypeFamilies,
     build-depends:    base             >= 4.15 && < 4.18,
                       parsec           >= 3.1  && < 4.0,
                       text             >= 1.2  && < 2.1,
