@@ -26,17 +26,17 @@ simulateRollingWest = map column
 
 simulateRollingCycle :: [String] -> [String]
 simulateRollingCycle =
-  transpose . map reverse . transpose . map reverse .
+  map reverse . transpose . map reverse .
   simulateRollingWest . map reverse . transpose .
   simulateRollingWest . map reverse . transpose .
   simulateRollingWest . transpose .
-  simulateRollingWest . transpose
+  simulateRollingWest
 
 simulateRollingCycles :: Int -> [String] -> [String]
-simulateRollingCycles maxCy = go 0 mempty
+simulateRollingCycles maxCy = go 0 mempty . transpose
   where
     go n mp ss
-      | n == maxCy = ss
+      | n == maxCy = transpose ss
       | otherwise = case Map.lookup ss mp of
         Nothing -> do
           let ss' = simulateRollingCycle ss
@@ -44,7 +44,7 @@ simulateRollingCycles maxCy = go 0 mempty
         Just (n', ss') -> do
           let cycleLen = n - n'
               remainingCycles = (maxCy - n) `mod` cycleLen - 1
-          go (maxCy - remainingCycles) mempty ss'
+          go (maxCy - remainingCycles) mp ss'
 
 day14 :: IO ()
 day14 = do
