@@ -9,22 +9,21 @@ data Direction = L | R | U | D
   deriving (Show, Eq, Enum)
 
 passRay :: (Int, Int, Direction) -> Vector (Vector Char) -> Int
-passRay start maze = runST $
-  sequence (V.replicate (V.length maze)
-    (MV.replicate (V.length (maze V.! 0)) [])) >>= go [start]
+passRay start maze = runST $ do
+  v <- sequence (V.replicate (V.length maze) (MV.replicate (V.length (maze V.! 0)) []))
+  let go [] = V.foldM' (MV.foldr' (\xs -> if null xs then id else succ)) 0 v
+      go ((x, y, d):xs) = case maze V.!? y >>= (V.!? x) of
+        Nothing -> go xs
+        Just c  -> do
+          ds <- MV.read (v V.! y) x
+          if d `elem` ds
+            then go xs
+            else do
+              MV.write (v V.! y) x (d:ds)
+              go (nextRayPositions x y d c xs)
+  go [start]
   where
-    go [] v = V.foldM' (MV.foldr' (\xs -> if null xs then id else succ)) 0 v
-    go ((x, y, d):xs) v = case maze V.!? y >>= (V.!? x) of
-      Nothing   -> go xs v
-      Just c -> do
-        ds <- MV.read (v V.! y) x
-        if d `elem` ds
-          then go xs v
-          else do
-            MV.write (v V.! y) x (d:ds)
-            go (analyze x y d c xs) v
-
-    analyze x y d c xs = case c of
+    nextRayPositions x y d c xs = case c of
       '.'  -> move x y d : xs
       '-'  -> case d of
         L -> move x y L : xs
